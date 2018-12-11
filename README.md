@@ -1,7 +1,7 @@
 # PATHS RESEARCH
 
-* {Participant 1 Name}
-* {Participant 2 Name}
-* {Participant 3 Name}
+* Noami Pindrus
+* Tali Badichi
+* Chanami Ross
 
 {OPTIONAL: MORE PROJECT INFO}
