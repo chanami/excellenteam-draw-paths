@@ -15,18 +15,27 @@ import controller
 
 class View():
     def set_attr(self,file,pic):
-        self.df = pd.read_pickle(file) #'data/paths.pkl.xz'
+        # self.df = pd.read_pickle(file) #'data/paths.pkl.xz'
         self.img= imread(pic)#"paths0.png"
-        self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
+        # self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
 
 
-    def draw_path(self,to_draw):
+    # def draw_path(self,to_draw):
+    #     print("in draw")
+    #     imshow(self.img)
+    #     # df_by_obj = self.df.set_index(['filename', 'obj']).sort_index()
+    #     for t in to_draw.index:
+    #         oo = self.index_file.loc[t]
+    #         # imshow(self.img)
+    #         plot(oo.x, oo.y)
+    #         # show()
+    #     show()
+
+    def draw_path(self, to_draw):
         print("in draw")
         imshow(self.img)
-        # df_by_obj = self.df.set_index(['filename', 'obj']).sort_index()
-        for t in to_draw.index:
-            oo = self.index_file.loc[t]
-            plot(oo.x, oo.y)
+        for x,y in to_draw:
+            plot(x,y)
         show()
 
 
