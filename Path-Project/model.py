@@ -3,8 +3,8 @@ import pandas as pd
 
 class Model:
 
-    def __init__(self):
-        self.df = self.load_pickle('data/paths.pkl.xz')
+    def __init__(self, file_name):
+        self.df = self.load_pickle(file_name)
 
     # def load_csv(self, csv_file):
     #     # TODO - load csv file
@@ -15,6 +15,7 @@ class Model:
     #     self.load_pickle(csv_file)
 
     def load_pickle(self, pickle_file):
+        print('WORK!!!')
         return pd.read_pickle(pickle_file)
 
     def get_df(self):

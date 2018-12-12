@@ -9,7 +9,7 @@ class PathProjectTestCase(unittest.TestCase):
 
     def test_load_file(self):
         control = controller.Controller("../data/paths.pkl.xz")
-        df = control.get_df()
+        df = control.get_file()
 
 
     def test_draw(self):

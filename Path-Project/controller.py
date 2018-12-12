@@ -5,8 +5,8 @@ class Controller:
     def __init__(self, file_name):
         self.model = model.Model(file_name)
 
-    def get_file(self, file_name):
-        return model.get_df(file_name)
+    def get_file(self):
+        return self.model.get_df()
 
 
     def draw(self, ):
