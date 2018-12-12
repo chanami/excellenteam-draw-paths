@@ -2,23 +2,19 @@ import pandas as pd
 
 
 class Model:
-    def __init__(self):
-        print("in model init")
-        self.df = self.load_pickle('data/paths.pkl.xz')
+    def set_file(self, file):
+        self.df = self.load_pickle(file)  # 'data/paths.pkl.xz'
+        self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
+        self.last=self.df
 
-    # def load_csv(self, csv_file):
-    #     # T
-    #     self.convert_csv_to_pickle(csv_file)
-    #
-    # def convert_csv_to_pickle(self, csv_file):
-    #     self.load_pickle(csv_file)
+    def reset(self):
+        self.last=self.df
 
     def load_pickle(self, pickle_file):
         return pd.read_pickle(pickle_file)
 
     def filter_by_hours(self, begin, end):
-        objs = self.df.groupby(["filename", "obj"]).agg({'time': ['min', 'max']})
-
+        objs = self.last.groupby(["filename", "obj"]).agg({'time': ['min', 'max']})
         begin_time = pd.to_datetime(begin).time()
         end_time = pd.to_datetime(end).time()
         min = objs.time['min'].dt.time  # objs[('time','min')]
@@ -26,13 +22,30 @@ class Model:
         # print(min, max)
         items = objs[(min.between(begin_time, end_time)) | ((min < begin_time) & (max > begin_time))]
         # print(items)
+        self.last=items
         return items
 
-    def filter_by_date_and_hour(self, from_hour, to_hour, date):
-        pass
+    def filter_by_date_and_hour(self, date, begin, end):
+        objs = self.last.groupby(["filename", "obj"]).agg({'time': ['min', 'max']})
+        date = pd.to_datetime(date)
+        begin_time = date + pd.to_timedelta(begin)
+        end_time = date + pd.to_timedelta(end)
+        # print(date,begin_time,end_time)
+        #     print(objs)
+        min = objs[('time', 'min')]
+        max = objs[('time', 'max')]
+        #     print(min.dt.date)
+        items = objs[
+            (min.between(begin_time, end_time)) | ((min.where(min < begin_time) & (max.where(max > begin_time))))]
+        # print(items)
+        self.last = items
+        return items
 
-    def filter_by_area(self, point1, point2):
-        pass
+    def filter_by_area(self, x0, x1, y0, y1):
+        # df_by_obj =
+        data_a = self.index_file[(self.index_file.x.between(x0, x1)) & (self.index_file.y.between(y0, y1))]
+        self.last = data_a
+        return data_a
 
     def filter_by_areas(self, *squares):
         pass
@@ -40,9 +53,5 @@ class Model:
     def apply_filters(self):
         pass
 
-    def filter_by_areas(self, *squares):
-        pass
-
-    def apply_filters(self):
-        pass
-
+    def no_filter(self):
+        return self.last.groupby(["filename", "obj"]).size()
