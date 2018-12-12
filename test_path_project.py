@@ -1,5 +1,4 @@
 import unittest
-import controller
 
 class PathProjectTestCase(unittest.TestCase):
 
