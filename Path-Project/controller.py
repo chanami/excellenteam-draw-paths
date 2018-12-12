@@ -3,10 +3,10 @@ import model
 class Controller:
 
     def __init__(self, file_name):
-        model = model.Model(file_name)
+        self.model = model.Model(file_name)
 
-    def load_file(self, file_name):
-        pass
+    def get_file(self, file_name):
+        return model.get_df(file_name)
 
 
     def draw(self, ):

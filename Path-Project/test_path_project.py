@@ -8,35 +8,31 @@ class PathProjectTestCase(unittest.TestCase):
 
 
     def test_load_file(self):
-        controller = controller.Controller("data/")
-        self.file = controller.load_file("")
+        control = controller.Controller("../data/paths.pkl.xz")
+        df = control.get_df()
 
 
-    def test_load_file(self, file_name):
+    def test_draw(self):
         pass
 
 
-    def draw(self):
+    def test_filter_by_hours(self):
         pass
 
 
-    def filter_by_hours(self, from_hour, to_hour):
+    def test_filter_by_date_and_hour(self):
         pass
 
 
-    def filter_by_date_and_hour(self, from_hour, to_hour, date):
+    def test_filter_by_area(self):
         pass
 
 
-    def filter_by_area(self, point1, point2):
+    def test_filter_by_areas(self):
         pass
 
 
-    def filter_by_areas(self, *squares):
-        pass
-
-
-    def apply_filters(self):
+    def test_apply_filters(self):
         pass
 
 
