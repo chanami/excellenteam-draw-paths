@@ -1,12 +1,17 @@
-import pandas as pd
+import unittest
 
-class Model:
+class PathProjectTestCase(unittest.TestCase):
 
-    def __init__(self, file_name):
-        self.file = self.load_file(file_name)
+    def setUp(self):
+        pass
 
 
-    def load_file(self, file_name):
+    def test_load_file(self):
+        controller = controller.Controller("data/")
+        self.file = controller.load_file("")
+
+
+    def test_load_file(self, file_name):
         pass
 
 
@@ -33,3 +38,6 @@ class Model:
     def apply_filters(self):
         pass
 
+
+if __name__ == '__main__':
+    unittest.main()
