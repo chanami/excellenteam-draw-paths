@@ -13,7 +13,7 @@ from numpy import *
 import controller
 
 
-class View():
+class View:
     def set_attr(self,pic):
         # self.df = pd.read_pickle(file) #'data/paths.pkl.xz'
         self.img= imread(pic)#"paths0.png"
@@ -42,7 +42,7 @@ class View():
     def get_filter(self):
         command = input("""enter filter selection:
               1. filter by hours range
-              2, filter by date and hours range
+              2. filter by date and hours range
               3. filter by selected area
               4. filter by specific areas
               5. no filter 
