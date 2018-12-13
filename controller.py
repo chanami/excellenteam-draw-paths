@@ -23,7 +23,7 @@ class Controller:
             # print("command: " + command)
             res = self.apply_filter(command)
 
-    def edit(self, command):
+    def edit(self, command,res):
         if command == '1':
             filter = self.view.get_filter()
             self.apply_filter(filter)
@@ -31,6 +31,11 @@ class Controller:
             self.model.reset()
             filter = self.view.get_filter()
             self.apply_filter(filter)
+        elif command == '3':
+            self.model.reset()
+            self.view.draw_path_one_by_one(res)
+            command = self.view.edit()
+            self.edit(command, res)
         else:
             self.model.reset()
             return
@@ -61,7 +66,7 @@ class Controller:
             return
         self.view.draw_path(res)
         command = self.view.edit()
-        self.edit(command)
+        self.edit(command,res)
 
     # def apply_filter(self,filter):
     #     res=self.model.filter_by_hours("04:00:02", "09:03:02")
