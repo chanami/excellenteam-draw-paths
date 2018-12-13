@@ -14,10 +14,8 @@ import controller
 
 
 class View:
-    def set_attr(self, pic):
-        # self.df = pd.read_pickle(file) #'data/paths.pkl.xz'
+    def set_attr(self, pic):#data/paths.pkl.xz
         self.img = imread(pic)  # "paths0.png"
-        # self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
 
     # def draw_path(self,to_draw):
     #     print("in draw")
@@ -31,18 +29,13 @@ class View:
     #     show()
 
     def draw_path(self, to_draw):
-        # print(len(to_draw))
-        # if len(to_draw)<1:
-        #     return
         print("in draw")
         imshow(self.img)
         for x, y in to_draw:
             plot(x, y)
 
         show()
-        # plt.pause(0.1)
-        # plt.gcf().clear()
-        # plt.close()
+
 
     def draw_path_one_by_one(self, to_draw):
         # print(len(to_draw))
@@ -53,11 +46,10 @@ class View:
         for x, y in to_draw:
             imshow(self.img)
             plot(x, y)
-            plt.pause(0.1)
-            plt.gcf().clear()
+            # plt.pause(0.1)
+            plt.show()
+            #plt.gcf().clear()
         # show()
-        # plt.pause(0.1)
-        # plt.close()
 
     def get_filter(self):
         command = input("""enter filter selection:
@@ -79,8 +71,7 @@ class View:
         command = input("""choose edit:
                 1. add filter
                 2, change filter
-                3. view one by one
-                3. no edit\n""")
+                3. no edit\n""")# 3. view one by one
         return command
 
     def draw_grid(self):
@@ -104,24 +95,4 @@ class View:
         img = imread("grid_img.png")
         imshow(img)
         show()
-        # print("in grid")
-        # img =self.img
-        # h, w = img.shape[:2]
-        # dx = w // 10
-        # dy = h // 10
-        # for i in range(dy, h, dy):
-        #     img[i:i + 2, :] = 0
-        # for i in range(dx, w, dx):
-        #     img[:, i:i + 2] = 0
-        # imshow(img)
-        # show()
 
-    # def plot_all_routes(self, dataframe, df_obj):
-    #     im = mpimg.imread(self.image_name)
-    #     plt.imshow(im)
-    #     # self.draw_grid()
-    #     for t in df_obj.index:
-    #         oo = dataframe.loc[t]
-    #         plt.plot(oo.x, oo.y)
-    #     plt.pause(0.1)
-    #     plt.gcf().clear()

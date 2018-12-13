@@ -33,11 +33,6 @@ class Controller:
             self.apply_filter(filter)
         elif command == '3':
             self.model.reset()
-            self.view.draw_path_one_by_one(res)
-            command = self.view.edit()
-            self.edit(command, res)
-        else:
-            self.model.reset()
             return
 
     def apply_filter(self, command):
@@ -64,7 +59,15 @@ class Controller:
             return
         else:
             return
-        self.view.draw_path(res)
+        if len(res)<10:
+            ans=input("would you like to view result one by one?(enter y/n)\n")
+            if ans=='y':
+                self.view.draw_path_one_by_one(res)
+            else:
+                print(res)
+                self.view.draw_path(res)
+        else:
+            self.view.draw_path(res)
         command = self.view.edit()
         self.edit(command,res)
 

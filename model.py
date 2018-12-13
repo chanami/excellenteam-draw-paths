@@ -4,12 +4,16 @@ import csv
 
 
 class Model:
+    def __init__(self):
+        self.NUM_SLICE_Y=10
+        self.NUM_SLICE_X=10
     def set_file(self, file, pic):
         self.img = imread(pic)
         self.df = self.load_file(file)  # 'data/paths.pkl.xz' pd.read_pickle('data/paths.pkl.xz')  #
         self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
         self.df = self.index_file
         self.last = self.index_file  # self.df
+
 
     def reset(self):
         self.last = self.df
@@ -129,18 +133,40 @@ class Model:
         print(len(arr))
         return arr
 
-    def filter_by_area(self, x0, x1, y0, y1):
-        # df_by_obj =
-        # current = self.last[self.last.index]
+    def filter_area(self, x0, x1, y0, y1):
         data_a = self.last[(self.last.x.between(x0, x1)) & (self.last.y.between(y0, y1))]
+        return data_a
+
+    def filter_by_area(self, x0, x1, y0, y1):
+        data_a = self.filter_area( x0, x1, y0, y1)
         self.set_last_data(data_a)
-        # print(data_a)
         return self.to_arrays(data_a)
 
+
     def filter_by_areas(self, areas):
-        # df_by_obj = self.df.set_index(['filename', 'obj']).sort_index().head(8000)
-        data_as = self.last[self.last.areas.isin(areas)]
-        return self.to_arrays(data_as)
+        width = self.img.shape[1]
+        height = self.img.shape[0]
+        # logger.debug(f"entering get square{list_square}")
+        intersect_series = pd.Series([])
+        for squere_index in areas:
+            row_index = int(squere_index) // self.NUM_SLICE_Y
+            col_index = int(squere_index) - (row_index * self.NUM_SLICE_X)
+            top_left = (col_index * (width // self.NUM_SLICE_X), (row_index) * (height // self.NUM_SLICE_Y))
+            bottom_right = (
+            (col_index + 1) * (width // self.NUM_SLICE_X), (row_index + 1) * (height // self.NUM_SLICE_Y))
+            new_series = self.filter_area(top_left[0],bottom_right[0],top_left[1], bottom_right[1])
+            if intersect_series.empty:
+                intersect_series = new_series
+            intersect_series = intersect_series.append(new_series)
+
+        return self.to_arrays(intersect_series.groupby(["filename", "obj"]).size())
+
+        # def filter_by_areas(self, areas):
+        # a_set=set(areas)
+        # # objs=self.last.groupby(["filename", "obj"]).agg({'areas':['sum']})
+        # # data_as=objs[objs.areas['sum']]
+        # data_as = self.last[self.last.areas.isin(a_set)]
+        # return self.to_arrays(data_as)
 
     def apply_filters(self):
         pass
@@ -151,13 +177,13 @@ class Model:
     def to_arrays(self, to_draw):
         points = []
         for t in to_draw.index:
-            oo = self.index_file.loc[t]
+            oo = self.last.loc[t]
             # imshow(self.img)
             points.append((oo.x, oo.y))
         return points
 
     def set_last_data(self, data_to_set):
         # df_by_obj = df.set_index(['filename', 'obj']).sort_index().head(8000)
-        indexs = list(data_to_set.index.unique())
+        indexs = set(data_to_set.index.unique())
         last_data = self.index_file[self.index_file.index.isin(indexs)]
         self.last = last_data
