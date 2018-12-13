@@ -31,11 +31,13 @@ class View:
     def draw_path(self, to_draw):
         print("in draw")
         imshow(self.img)
+        ion()
         for x, y in to_draw:
             plot(x, y)
         show()
         time.sleep(5)
-        plt.close(1)
+        close('all')
+        # plt.gcf().clear()
 
 
     def draw_path_one_by_one(self, to_draw):
@@ -48,6 +50,7 @@ class View:
             imshow(self.img)
             plot(x, y)
             # plt.pause(0.1)
+
             plt.show()
             #plt.gcf().clear()
         # show()
