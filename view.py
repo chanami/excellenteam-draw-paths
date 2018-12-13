@@ -1,6 +1,6 @@
 import cv2
 import numpy
-from matplotlib import  pyplot
+from matplotlib import pyplot
 
 np = numpy
 plt = pyplot
@@ -14,11 +14,10 @@ import controller
 
 
 class View:
-    def set_attr(self,pic):
+    def set_attr(self, pic):
         # self.df = pd.read_pickle(file) #'data/paths.pkl.xz'
-        self.img= imread(pic)#"paths0.png"
+        self.img = imread(pic)  # "paths0.png"
         # self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
-
 
     # def draw_path(self,to_draw):
     #     print("in draw")
@@ -31,27 +30,41 @@ class View:
     #         # show()
     #     show()
 
-
     def draw_path(self, to_draw):
         # print(len(to_draw))
         # if len(to_draw)<1:
         #     return
         print("in draw")
         imshow(self.img)
-        for x,y in to_draw:
-            plot(x,y)
-        # show()
-        plt.pause(0.1)
-        plt.gcf().clear()
-        # plt.ion()
+        for x, y in to_draw:
+            plot(x, y)
 
+        show()
+        # plt.pause(0.1)
+        # plt.gcf().clear()
+        # plt.close()
+
+    def draw_path_one_by_one(self, to_draw):
+        # print(len(to_draw))
+        # if len(to_draw)<1:
+        #     return
+        print("in draw")
+        # imshow(self.img)
+        for x, y in to_draw:
+            imshow(self.img)
+            plot(x, y)
+            plt.pause(0.1)
+            plt.gcf().clear()
+        # show()
+        # plt.pause(0.1)
+        # plt.close()
 
     def get_filter(self):
         command = input("""enter filter selection:
               1. filter by hours range
               2. filter by date and hours range
-              3. filter by selected area
-              4. filter by specific areas
+              3. filter by specific area
+              4. filter by selected areas
               5. no filter 
               6. exit\n""")
         return command
@@ -60,12 +73,13 @@ class View:
         # command = self.get_filter()
         file = input("enter file\n")
         picture = input("enter picture\n")
-        return ( file, picture)# command,
+        return (file, picture)  # command,
 
     def edit(self):
         command = input("""choose edit:
                 1. add filter
                 2, change filter
+                3. view one by one
                 3. no edit\n""")
         return command
 
@@ -102,3 +116,12 @@ class View:
         # imshow(img)
         # show()
 
+    # def plot_all_routes(self, dataframe, df_obj):
+    #     im = mpimg.imread(self.image_name)
+    #     plt.imshow(im)
+    #     # self.draw_grid()
+    #     for t in df_obj.index:
+    #         oo = dataframe.loc[t]
+    #         plt.plot(oo.x, oo.y)
+    #     plt.pause(0.1)
+    #     plt.gcf().clear()
