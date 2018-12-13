@@ -4,22 +4,21 @@ from view import View
 
 class Controller:
     def __init__(self):
-        self.model =Model()
-        self.view=View()
+        self.model = Model()
+        self.view = View()
         self.run()
 
     def run(self):
         while True:
             command, file, picture = self.view.get_command()
-            self.model.set_file(file)
+            self.model.set_file(file, picture)
             self.view.set_attr(file, picture)
             print("command: " + command)
             self.apply_filter(command)
 
-
-    def edit(self,command):
+    def edit(self, command):
         if command == '1':
-            filter=self.view.get_filter()
+            filter = self.view.get_filter()
             self.apply_filter(filter)
         elif command == '2':
             self.model.reset()
@@ -28,9 +27,7 @@ class Controller:
         else:
             return
 
-
-
-    def apply_filter(self,command):
+    def apply_filter(self, command):
         if command == '1':
             t1 = input("enter first hour in hh:mm:ss format:\n")
             t2 = input("enter second hour in hh:mm:ss format:\n")
