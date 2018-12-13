@@ -31,12 +31,19 @@ class View:
     #         # show()
     #     show()
 
+
     def draw_path(self, to_draw):
+        # print(len(to_draw))
+        # if len(to_draw)<1:
+        #     return
         print("in draw")
         imshow(self.img)
         for x,y in to_draw:
             plot(x,y)
-        show()
+        # show()
+        plt.pause(0.1)
+        plt.gcf().clear()
+        # plt.ion()
 
 
     def get_filter(self):

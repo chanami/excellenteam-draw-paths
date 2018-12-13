@@ -2,34 +2,38 @@ import pandas as pd
 from pylab import imread
 import csv
 
+
 class Model:
     def set_file(self, file, pic):
         self.img = imread(pic)
-        self.df =pd.read_pickle('data/paths.pkl.xz') # self.load_file(file)  # 'data/paths.pkl.xz'
+        self.df = self.load_file(file)  # 'data/paths.pkl.xz' pd.read_pickle('data/paths.pkl.xz')  #
         self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
-        self.df=self.index_file
+        self.df = self.index_file
         self.last = self.index_file  # self.df
 
     def reset(self):
         self.last = self.df
 
-    def load_file(self, csv_file):
-        fixed_file = self.fix_csv(csv_file)
+    def load_file(self, file):
+        if file[-4:] == ".csv":
+            fixed_file = self.fix_csv(file)
 
-        col_names = ["frame", "x", "y", "obj", "size", "seq", "tbd1", "tbd2", "tbd3", "filename", "time", "path_time",
-                     "delta_time", "tbd4"]
-        use_cols = ["frame", "x", "y", "obj", "size", "seq", "filename", "time", "delta_time"]
-        df = pd.read_csv(fixed_file, names=col_names, usecols=use_cols, parse_dates=['time'])
-        df = self.initialize_areas(df)
-        df['time'] = df['time'] + pd.to_timedelta(df['delta_time'])
-        df = df.drop(['delta_time'], axis=1)
+            col_names = ["frame", "x", "y", "obj", "size", "seq", "tbd1", "tbd2", "tbd3", "filename", "time",
+                         "path_time",
+                         "delta_time", "tbd4"]
+            use_cols = ["frame", "x", "y", "obj", "size", "seq", "filename", "time", "delta_time"]
+            df = pd.read_csv(fixed_file, names=col_names, usecols=use_cols, parse_dates=['time'])
+            df = self.initialize_areas(df)
+            df['time'] = df['time'] + pd.to_timedelta(df['delta_time'])
+            df = df.drop(['delta_time'], axis=1)
 
-        df = self.optimize_csv(df)
+            df = self.optimize_csv(df)
 
-        # df = self.convert_csv_to_pickle(df)
-        path_name = 'data/paths.pkl.xz'
-        df.to_pickle(path_name)
-        return pd.read_pickle(path_name)
+            # df = self.convert_csv_to_pickle(df)
+            file = 'data/paths.pkl.xz'
+            df.to_pickle(file)
+
+        return self.load_pickle(file)
 
     def fix_csv(self, csv_file):
         valid_lines = 0
@@ -89,6 +93,9 @@ class Model:
         df[converted_obj.columns] = converted_obj
         return df
 
+    def load_pickle(self, pickle):
+        return pd.read_pickle(pickle)
+
     def filter_by_hours(self, begin, end):
         objs = self.last.groupby(["filename", "obj"]).agg({'time': ['min', 'max']})
         begin_time = pd.to_datetime(begin).time()
@@ -131,9 +138,9 @@ class Model:
         return self.to_arrays(data_a)
 
     def filter_by_areas(self, areas):
-        df_by_obj = self.df.set_index(['filename', 'obj']).sort_index().head(8000)
-        data_as = df_by_obj[df_by_obj.areas.isin(areas)]
-        return data_as
+        # df_by_obj = self.df.set_index(['filename', 'obj']).sort_index().head(8000)
+        data_as = self.last[self.last.areas.isin(areas)]
+        return self.to_arrays(data_as)
 
     def apply_filters(self):
         pass
@@ -141,13 +148,13 @@ class Model:
     def no_filter(self):
         return self.last.groupby(["filename", "obj"]).size()
 
-    def to_arrays(self,to_draw):
-        points=[]
+    def to_arrays(self, to_draw):
+        points = []
         for t in to_draw.index:
             oo = self.index_file.loc[t]
             # imshow(self.img)
             points.append((oo.x, oo.y))
-        return  points
+        return points
 
     def set_last_data(self, data_to_set):
         # df_by_obj = df.set_index(['filename', 'obj']).sort_index().head(8000)
