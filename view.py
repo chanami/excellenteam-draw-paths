@@ -31,12 +31,12 @@ class View:
     def draw_path(self, to_draw):
         print("in draw")
         imshow(self.img)
-        ion()
+        # ion()
         for x, y in to_draw:
             plot(x, y)
         show()
-        time.sleep(5)
-        close('all')
+        # time.sleep(5)
+        # close('all')
         # plt.gcf().clear()
 
 
@@ -50,8 +50,7 @@ class View:
             imshow(self.img)
             plot(x, y)
             # plt.pause(0.1)
-
-            plt.show()
+            show()
             #plt.gcf().clear()
         # show()
 
