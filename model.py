@@ -5,9 +5,10 @@ import csv
 class Model:
     def set_file(self, file, pic):
         self.img = imread(pic)
-        self.df = self.load_file(file)  # 'data/paths.pkl.xz'
+        self.df =pd.read_pickle('data/paths.pkl.xz') # self.load_file(file)  # 'data/paths.pkl.xz'
         self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
-        self.last = self.df
+        self.df=self.index_file
+        self.last = self.index_file  # self.df
 
     def reset(self):
         self.last = self.df
@@ -103,6 +104,7 @@ class Model:
 
     def filter_by_date_and_hour(self, date, begin, end):
         objs = self.last.groupby(["filename", "obj"]).agg({'time': ['min', 'max']})
+        # objs= self.index_file.agg({'time': ['min', 'max']})
         date = pd.to_datetime(date)
         begin_time = date + pd.to_timedelta(begin)
         end_time = date + pd.to_timedelta(end)
@@ -122,7 +124,8 @@ class Model:
 
     def filter_by_area(self, x0, x1, y0, y1):
         # df_by_obj =
-        data_a = self.index_file[(self.index_file.x.between(x0, x1)) & (self.index_file.y.between(y0, y1))]
+        # current = self.last[self.last.index]
+        data_a = self.last[(self.last.x.between(x0, x1)) & (self.last.y.between(y0, y1))]
         self.set_last_data(data_a)
         # print(data_a)
         return self.to_arrays(data_a)
@@ -145,3 +148,9 @@ class Model:
             # imshow(self.img)
             points.append((oo.x, oo.y))
         return  points
+
+    def set_last_data(self, data_to_set):
+        # df_by_obj = df.set_index(['filename', 'obj']).sort_index().head(8000)
+        indexs = list(data_to_set.index.unique())
+        last_data = self.index_file[self.index_file.index.isin(indexs)]
+        self.last = last_data
