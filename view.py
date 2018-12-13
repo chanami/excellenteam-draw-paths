@@ -1,6 +1,5 @@
 import numpy
-import matplotlib
-from matplotlib import pylab, mlab, pyplot
+from matplotlib import  pyplot
 
 np = numpy
 plt = pyplot
@@ -49,11 +48,11 @@ class View:
               6. exit\n""")
         return command
 
-    def get_command(self):
-        command = self.get_filter()
+    def get_files(self):
+        # command = self.get_filter()
         file = input("enter file\n")
         picture = input("enter picture\n")
-        return (command, file, picture)
+        return ( file, picture)# command,
 
     def edit(self):
         command = input("""choose edit:
@@ -61,4 +60,17 @@ class View:
                 2, change filter
                 3. no edit\n""")
         return command
+
+    def draw_grid(self):
+        print("in grid")
+        img =self.img
+        h, w = img.shape[:2]
+        dx = w // 10
+        dy = h // 10
+        for i in range(dy, h, dy):
+            img[i:i + 2, :] = 0
+        for i in range(dx, w, dx):
+            img[:, i:i + 2] = 0
+        imshow(img)
+        show()
 
