@@ -13,7 +13,7 @@ import controller
 
 
 class View:
-    def set_attr(self,file,pic):
+    def set_attr(self,pic):
         # self.df = pd.read_pickle(file) #'data/paths.pkl.xz'
         self.img= imread(pic)#"paths0.png"
         # self.index_file = self.df.set_index(['filename', 'obj']).sort_index()

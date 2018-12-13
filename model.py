@@ -1,8 +1,6 @@
 import pandas as pd
-import csv
-import sys
 from pylab import imread
-
+import csv
 
 class Model:
     def set_file(self, file, pic):
@@ -132,8 +130,7 @@ class Model:
     def filter_by_areas(self, areas):
         df_by_obj = self.df.set_index(['filename', 'obj']).sort_index().head(8000)
         data_as = df_by_obj[df_by_obj.areas.isin(areas)]
-        self.set_last_data(data_as)
-        return self.to_arrays(data_as)
+        return data_as
 
     def apply_filters(self):
         pass
@@ -141,18 +138,10 @@ class Model:
     def no_filter(self):
         return self.last.groupby(["filename", "obj"]).size()
 
-    def to_arrays(self, to_draw):
-        points = []
+    def to_arrays(self,to_draw):
+        points=[]
         for t in to_draw.index:
             oo = self.index_file.loc[t]
+            # imshow(self.img)
             points.append((oo.x, oo.y))
-        return points
-
-    def set_last_data(self, data_to_set):
-        # df_by_obj = df.set_index(['filename', 'obj']).sort_index().head(8000)
-        indexs = list(data_to_set.index.unique())
-        last_data = self.index_file[self.index_file.index.isin(indexs)]
-        self.last = last_data
-
-    def create_pickle(self, file):
-        pass
+        return  points
