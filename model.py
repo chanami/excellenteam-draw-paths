@@ -172,7 +172,7 @@ class Model:
         pass
 
     def no_filter(self):
-        return self.last.groupby(["filename", "obj"]).size()
+        return self.to_arrays(self.last.groupby(["filename", "obj"]).size())
 
     def to_arrays(self, to_draw):
         points = []

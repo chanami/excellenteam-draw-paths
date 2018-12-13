@@ -33,8 +33,9 @@ class View:
         imshow(self.img)
         for x, y in to_draw:
             plot(x, y)
-
         show()
+        time.sleep(5)
+        plt.close(1)
 
 
     def draw_path_one_by_one(self, to_draw):
