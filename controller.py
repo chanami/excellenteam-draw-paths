@@ -14,7 +14,10 @@ class Controller:
             self.model.set_file(file)
             self.view.set_attr(file, picture)
             print("command: " + command)
-            self.apply_filter(command)
+            res=self.apply_filter(command)
+            print(res)
+            if res =="exit":
+                return
 
 
     def edit(self,command):
@@ -48,13 +51,12 @@ class Controller:
             res = self.model.filter_by_area(int(x0), int(x1), int(y0), int(y1))
             # self.view.draw_path(res)
         elif command=='4':
-            areas=input("enter areas (x,y):\n")
+            areas=input("enter areas (x,y):\n").split(',')
             res = self.model.filter_by_areas(areas)
         elif command == '5':
             res = self.model.no_filter()
-
         else:
-            return
+            return "exit"
         self.view.draw_path(res)
         command = self.view.edit()
         self.edit(command)
