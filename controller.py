@@ -32,6 +32,7 @@ class Controller:
             filter = self.view.get_filter()
             self.apply_filter(filter)
         else:
+            self.model.reset()
             return
 
     def apply_filter(self, command):

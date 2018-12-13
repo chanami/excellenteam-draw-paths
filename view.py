@@ -1,3 +1,4 @@
+import cv2
 import numpy
 from matplotlib import  pyplot
 
@@ -62,15 +63,35 @@ class View():
         return command
 
     def draw_grid(self):
-        print("in grid")
-        img =self.img
-        h, w = img.shape[:2]
-        dx = w // 10
-        dy = h // 10
+        size = 10
+        i = 0
+        ab = range(size * size)
+        im = cv2.imread("paths0.png", 1)
+        h, w = im.shape[:2]
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        dx, dy = w // size, h // size
+        for y in range(size):
+            for x in range(size):
+                x_place, y_place = int((x * dx + dx / 2) - size), int(y * dy + dy - size)
+                cv2.putText(im, str(ab[i]), (x_place, y_place), font, 0.6, (0, 0, 0), 2, cv2.LINE_AA)
+                i += 1
         for i in range(dy, h, dy):
-            img[i:i + 2, :] = 0
+            im[i:i + 2, :] = 0
         for i in range(dx, w, dx):
-            img[:, i:i + 2] = 0
+            im[:, i:i + 2] = 0
+        cv2.imwrite("grid_img.png", im)
+        img = imread("grid_img.png")
         imshow(img)
         show()
+        # print("in grid")
+        # img =self.img
+        # h, w = img.shape[:2]
+        # dx = w // 10
+        # dy = h // 10
+        # for i in range(dy, h, dy):
+        #     img[i:i + 2, :] = 0
+        # for i in range(dx, w, dx):
+        #     img[:, i:i + 2] = 0
+        # imshow(img)
+        # show()
 
