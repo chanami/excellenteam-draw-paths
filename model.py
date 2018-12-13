@@ -1,8 +1,10 @@
 import pandas as pd
+from pylab import imread
 
 
 class Model:
-    def set_file(self, file):
+    def set_file(self, file, pic):
+        self.img = imread(pic)
         self.df = self.load_pickle(file)  # 'data/paths.pkl.xz'
         self.index_file = self.df.set_index(['filename', 'obj']).sort_index()
         self.last = self.df
@@ -22,7 +24,7 @@ class Model:
         # print(min, max)
         items = objs[(min.between(begin_time, end_time)) | ((min < begin_time) & (max > begin_time))]
         # print(items)
-        self.last = items
+        self.set_last_data(items)
         print(len(items))
         return self.to_arrays(items)
 
@@ -39,22 +41,23 @@ class Model:
         items = objs[
             (min.between(begin_time, end_time)) | ((min.where(min < begin_time) & (max.where(max > begin_time))))]
         # print(items)
-        self.last = items
+        self.set_last_data(items)
         print(len(items))
-        arr=self.to_arrays(items)
+        arr = self.to_arrays(items)
         print(len(arr))
         return arr
 
     def filter_by_area(self, x0, x1, y0, y1):
         # df_by_obj =
         data_a = self.index_file[(self.index_file.x.between(x0, x1)) & (self.index_file.y.between(y0, y1))]
-        self.last = data_a
-        print(data_a)
+        self.set_last_data(data_a)
+        # print(data_a)
         return self.to_arrays(data_a)
 
     def filter_by_areas(self, areas):
         df_by_obj = self.df.set_index(['filename', 'obj']).sort_index().head(8000)
         data_as = df_by_obj[df_by_obj.areas.isin(areas)]
+        self.set_last_data(data_as)
         return self.to_arrays(data_as)
 
     def apply_filters(self):
@@ -67,9 +70,14 @@ class Model:
         points = []
         for t in to_draw.index:
             oo = self.index_file.loc[t]
-            # imshow(self.img)
             points.append((oo.x, oo.y))
         return points
 
-    def create_pickle(self,file):
+    def set_last_data(self, data_to_set):
+        # df_by_obj = df.set_index(['filename', 'obj']).sort_index().head(8000)
+        indexs = list(data_to_set.index.unique())
+        last_data = self.index_file[self.index_file.index.isin(indexs)]
+        self.last = last_data
+
+    def create_pickle(self, file):
         pass
