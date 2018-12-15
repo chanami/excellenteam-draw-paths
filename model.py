@@ -157,7 +157,7 @@ class Model:
             if intersect_series.empty:
                 intersect_series = new_series
             intersect_series = intersect_series.append(new_series)
-
+        self.set_last_data(intersect_series.groupby(["filename", "obj"]).size())
         return self.to_arrays(intersect_series.groupby(["filename", "obj"]).size())
 
         # def filter_by_areas(self, areas):
