@@ -2,7 +2,6 @@ import pandas as pd
 from pylab import imread
 import csv
 
-
 class Model:
     def __init__(self):
         self.NUM_SLICE_Y=10
@@ -19,11 +18,11 @@ class Model:
         self.last = self.df
 
     def load_file(self, file):
+
         if file[-4:] == ".csv":
             fixed_file = self.fix_csv(file)
 
-            col_names = ["frame", "x", "y", "obj", "size", "seq", "tbd1", "tbd2", "tbd3", "filename", "time",
-                         "path_time",
+            col_names = ["frame", "x", "y", "obj", "size", "seq", "tbd1", "tbd2", "tbd3", "filename", "time", "path_time",
                          "delta_time", "tbd4"]
             use_cols = ["frame", "x", "y", "obj", "size", "seq", "filename", "time", "delta_time"]
             df = pd.read_csv(fixed_file, names=col_names, usecols=use_cols, parse_dates=['time'])
@@ -33,10 +32,10 @@ class Model:
 
             df = self.optimize_csv(df)
 
-            # df = self.convert_csv_to_pickle(df)
-            file = 'data/paths.pkl.xz'
-            df.to_pickle(file)
+            file_path = 'data/paths.pkl.xz'
+            file = df.to_pickle(file_path)
 
+        # if file[-7:] == ".pkl.xz":
         return self.load_pickle(file)
 
     def fix_csv(self, csv_file):
@@ -138,7 +137,7 @@ class Model:
         return data_a
 
     def filter_by_area(self, x0, x1, y0, y1):
-        data_a = self.filter_area( x0, x1, y0, y1)
+        data_a = self.filter_area(x0, x1, y0, y1)
         self.set_last_data(data_a)
         return self.to_arrays(data_a)
 

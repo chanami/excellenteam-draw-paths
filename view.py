@@ -16,6 +16,7 @@ import controller
 class View:
     def set_attr(self, pic):#data/paths.pkl.xz
         self.img = imread(pic)  # "paths0.png"
+        self.path_img = pic
 
     # def draw_path(self,to_draw):
     #     print("in draw")
@@ -67,13 +68,17 @@ class View:
     def get_files(self):
         # command = self.get_filter()
         file = input("enter file\n")
+        while file[-7:] != ".pkl.xz":
+            file = input("File is invalid! Enter csv or pkl.xz file!\n")
+
         picture = input("enter picture\n")
-        return (file, picture)  # command,
+
+        return file, picture  # command,
 
     def edit(self):
         command = input("""choose edit:
                 1. add filter
-                2, change filter
+                2. change filter
                 3. no edit\n""")# 3. view one by one
         return command
 
@@ -81,7 +86,7 @@ class View:
         size = 10
         i = 0
         ab = range(size * size)
-        im = cv2.imread("paths0.png", 1)
+        im = cv2.imread(self.path_img, 1)
         h, w = im.shape[:2]
         font = cv2.FONT_HERSHEY_SIMPLEX
         dx, dy = w // size, h // size
