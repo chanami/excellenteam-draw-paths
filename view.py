@@ -17,16 +17,6 @@ class View:
     def set_attr(self, pic):#data/paths.pkl.xz
         self.img = imread(pic)  # "paths0.png"
 
-    # def draw_path(self,to_draw):
-    #     print("in draw")
-    #     imshow(self.img)
-    #     # df_by_obj = self.df.set_index(['filename', 'obj']).sort_index()
-    #     for t in to_draw.index:
-    #         oo = self.index_file.loc[t]
-    #         # imshow(self.img)
-    #         plot(oo.x, oo.y)
-    #         # show()
-    #     show()
 
     def draw_path(self, to_draw):
         print("in draw")
@@ -41,17 +31,14 @@ class View:
 
 
     def draw_path_one_by_one(self, to_draw):
-        # print(len(to_draw))
-        # if len(to_draw)<1:
-        #     return
-        print("in draw")
-        # imshow(self.img)
+        print("in draw",len(to_draw))
+        imshow(self.img)
         for x, y in to_draw:
             imshow(self.img)
             plot(x, y)
             # plt.pause(0.1)
             show()
-            #plt.gcf().clear()
+            # plt.gcf().clear()
         # show()
 
     def get_filter(self):

@@ -55,13 +55,11 @@ class Controller:
             res = self.model.filter_by_areas(areas)
         elif command == '5':
             res = self.model.no_filter()
-        elif command == '6':
-            return
         else:
             return
-        if len(res)<10:
+        if len(res) < 10:
             ans=input("would you like to view result one by one?(enter y/n)\n")
-            if ans=='y':
+            if ans == 'y':
                 self.view.draw_path_one_by_one(res)
             else:
                 print(res)
