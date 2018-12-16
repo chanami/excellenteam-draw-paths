@@ -70,7 +70,7 @@ class Model:
         size = 10
         i = 0
         ab = range(size * size)
-        w_delta, h_delta = w / size, h / size
+        w_delta, h_delta = w // size, h // size
         for y in range(size):
             for x in range(size):
                 df.loc[(df.x.between(x * w_delta, x * w_delta + w_delta)) & (
