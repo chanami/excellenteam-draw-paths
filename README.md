@@ -6,13 +6,13 @@
 
 
 # INSTALLATION REQUIREMENTS 
-* pandas
-  pip install pandas
+* Pandas
+  run pip install pandas
 * opencv
-  pip install opencv-python
+  run pip install opencv-python
   
-  # RUN THE PROJECT
+# RUN THE PROJECT
   * main.py 
-  # EXTRA 
+# EXTRA 
   you can upload csv or pickle files
   
