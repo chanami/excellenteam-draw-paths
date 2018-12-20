@@ -4,14 +4,15 @@
 * Tali Badichi
 * Chanami Ross
 
-{OPTIONAL: MORE PROJECT INFO}
-#INSTALLATION REQUIREMENTS 
-*pandas
+
+# INSTALLATION REQUIREMENTS 
+* pandas
   pip install pandas
-*opencv
+* opencv
   pip install opencv-python
   
-  #RUN THE PROJECT
-  *main.py 
+  # RUN THE PROJECT
+  * main.py 
+  # EXTRA 
   you can upload csv or pickle files
   
